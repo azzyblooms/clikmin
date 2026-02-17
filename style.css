@@ -1,0 +1,8 @@
+@font-face {
+    font-family: pikmin;
+    src: url(font/pikmin.ttf);
+}
+#title {
+    font-size:20px;
+    font-family:pikmin;
+}
