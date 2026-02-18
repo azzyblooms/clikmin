@@ -3,6 +3,24 @@
     src: url(font/pikmin.ttf);
 }
 #title {
-    font-size:20px;
+    font-size:100px;
     font-family:pikmin;
+}
+body {
+    text-align:center;
+}
+#clickablemin {
+    transition: ease 50ms;
+    background-image: url('images/clicker.png');
+    background-size: cover;
+    border:none;
+    height:200px;
+    width:200px;
+    background-color:transparent;
+}
+#clickablemin:hover {
+    transform: scale(1.2);
+}
+#clickablemin:active {
+    transform: scale(2);
 }
