@@ -4,10 +4,13 @@
 }
 #title {
     font-size:100px;
+    display:inline-block;
     font-family:pikmin;
 }
 body {
     text-align:center;
+    background-color: rgb(154, 243, 158);
+    color:white;
 }
 #clickablemin {
     transition: ease 50ms;
@@ -23,4 +26,24 @@ body {
 }
 #clickablemin:active {
     transform: scale(2);
+}
+.johndiv {
+    height:200px;
+}
+#coolnumber {
+    border:5px solid white;
+    display:inline-block;
+    margin:auto;
+    border-radius:8px;
+    background-color:rgb(105, 224, 101);
+    padding:10px;
+    padding-top:6px;
+    padding-bottom:6px;
+    font-size:40px;
+    display:inline-block;
+    font-family:pikmin;
+    transition: transform ease 150ms;
+}
+.jeffdiv {
+    width:20px;
 }
