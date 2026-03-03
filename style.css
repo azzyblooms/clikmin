@@ -3,7 +3,7 @@
     src: url(font/pikmin.ttf);
 }
 #title {
-    font-size:100px;
+    font-size:40px;
     display:inline-block;
     font-family:pikmin;
 }
@@ -21,11 +21,8 @@ body {
     width:200px;
     background-color:transparent;
 }
-#clickablemin:hover {
-    transform: scale(1.2);
-}
 #clickablemin:active {
-    transform: scale(2);
+    transform: scale(1.2);
 }
 .johndiv {
     height:200px;
@@ -46,4 +43,34 @@ body {
 }
 .jeffdiv {
     width:20px;
+}
+.boxtext {
+    font-family: pikmin;
+}
+.itemcontainer {
+    border:2px solid black;
+    display:flex;
+    gap:10px;
+    align-items: center;
+    padding:4px;
+    background-color:white;
+    width:300px;
+}
+#rpimg {
+    width:20px;
+    height:auto;
+    padding-right:5px;
+}
+.textarea {
+    display:flex;
+    flex-direction: column;
+}
+#rpamount {
+    color: grey;
+    font-size:25px;
+    text-align:left;
+}
+.rpcosttext {
+    color:red;
+    font-family:pikmin;
 }
