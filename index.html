@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <audio loop autoplay muted id="music">
+            <source src="audio/musicboxed.mp3" type="audio/mpeg">
+        </audio>
         <link rel="stylesheet" href="style.css"/>
         <link rel="icon" type="image/x-icon" href="images/favicon.ico"/>
         <title id="pagetitle">clikmin: 0 pokos</title>
@@ -8,19 +11,26 @@
     <body>
         <div id="title">who up cliking they min</div><div class="jeffdiv"></div>    <div id="coolnumber">0</div>
         <div class="johndiv"></div>
-        <div id="totallyclickableyo">
+        <div id="totallyclickableyo" class="willshake">
             <button id="clickablemin"></button>
         </div>
         <!--<div class="johndiv"></div>-->
-        <div id="rpbox" class="itemcontainer">
+        <div id="rpbox" class="itemcontainer willshake">
             <img id="rpimg" src="images/redpikmin.png" width="50px" height="50px">
             <div class="textarea">
             <span class="boxtext" id="rpamount">x0</span>
             <div class="rpcosttext"><span class="boxtext" id="rptext">RED PIKMIN: </span><span class="boxtext" id="rpcost">15</span> pokos</div>
             </div>
+        </div>
+        <div id="bpbox" class="itemcontainer willshake">
+            <img id="bpimg" src="images/bluepikmin.png" width="30px" height="60px">
+            <div class="textarea">
+            <span class="boxtext" id="bpamount">x0</span>
+            <div class="bpcosttext"><span class="boxtext" id="bptext">BLUE PIKMIN: </span><span class="boxtext" id="bpbost">100</span> pokos</div>
+            </div>
 
         </div>
-
+        <button id="togglemute"></button>
 
 
 

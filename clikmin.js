@@ -1,18 +1,33 @@
 // AUDIO
 const clickSound = new Audio('audio/pluck.mp3');
+const deletefile = new Audio('audio/deletefile.mp3');
 // ELEMENTS
 const clickableMin = document.getElementById('clickablemin');
+const toggleMute = document.getElementById('togglemute');
+const music = document.getElementById('music');
 const number = document.getElementById('coolnumber');
 const pageTitle = document.getElementById('pagetitle');
+
 const rpcost = document.getElementById('rpcost');
 const rptext = document.getElementById('rptext');
 const rpamount = document.getElementById('rpamount');
 const rpcosttext = document.querySelectorAll(".rpcosttext")
 const rpbox = document.getElementById('rpbox');
+
+const bpcost = document.getElementById('bpcost');
+const bptext = document.getElementById('bptext');
+const bpamount = document.getElementById('bpamount');
+const bpcosttext = document.querySelectorAll(".bpcosttext")
+const bpbox = document.getElementById('bpbox');
 // VARIABLES
 let pokos = Number(localStorage.getItem("pokos")) || 0;
+// - red pikmin
 let rp = Number(localStorage.getItem("rp")) || 0;
 let rpprice = 15;
+let rpmulti = 1;
+let bp = Number(localStorage.getItem("rp")) || 0;
+let bpprice = 100;
+let bpmulti = 1;
 // variable stuff that can probs be coded more efficienter
 
 // declaring functions
@@ -25,6 +40,7 @@ function clickerSound() {
 function updatePokos() {
     localStorage.setItem("pokos", pokos);
     localStorage.setItem("rp", rp);
+    localStorage.setItem("bp", bp);
     number.textContent = pokos;
     if(pokos == 1) {
         pageTitle.textContent = "clikmin: " + pokos + " poko"
@@ -32,6 +48,26 @@ function updatePokos() {
         pageTitle.textContent = "clikmin: " + pokos + " pokos"
     }
     pokoUpdates();
+    if(music.muted == false) {
+    number.style.transform = "scale(1.2)";
+    number.style.transition = "ease 50ms"
+    setTimeout(() => {
+        number.style.transform = "scale(1)";
+    }, 50);
+}
+    
+}
+function shake(duration) {
+    clickableMin.classList.add("shaking");
+    rpbox.classList.add("shaking");
+    bpbox.classList.add("shaking");
+    number.classList.add("shaking");
+    setTimeout(() => {
+        rpbox.classList.remove("shaking");
+        bpbox.classList.remove("shaking");
+        number.classList.remove("shaking");
+        clickableMin.classList.remove("shaking");
+    }, duration)
 }
 
 function pokoUpdates() {
@@ -44,6 +80,15 @@ function pokoUpdates() {
             element.style.color = "red";
         });
     }
+        if(pokos >= bpprice) {
+        bpcosttext.forEach(element => {
+            element.style.color = "green";
+        });
+    } else {
+        bpcosttext.forEach(element => {
+            element.style.color = "red";
+        });
+    }
 }
 
 function updateRPPrice() {
@@ -52,12 +97,20 @@ function updateRPPrice() {
     rpcost.textContent = rpprice;
     rpamount.textContent = "x" + rp;
 }
+function updateBPPrice() {
+    localStorage.setItem("bp", bp);
+    bpprice = Math.floor(100 * Math.pow(1.15, bp));
+    bpcost.textContent = bpprice;
+    bpamount.textContent = "x" + bp;
+}
 
 // handling pokos
 
 document.addEventListener('DOMContentLoaded', () => {
     updatePokos();
     updateRPPrice();
+    updateBPPrice();
+    music.play();
 })
 
 // clicking main clickable
@@ -67,27 +120,49 @@ clickableMin.addEventListener('mousedown', () => {
     pokos++;
     updatePokos();
     pokoUpdates();
-    number.style.transform = "scale(1.2)";
-    number.style.transition = "ease 50ms"
-    setTimeout(() => {
-        number.style.transform = "scale(1)";
-    }, 50);
 });
 
 // reset file
 
-document.addEventListener('keypress', () => {
-    if(event.key == "a") {
-        pokos = 0;
-        rp = 0;
-        rpamount = 0;
-        rpprice = 15;
-        rpamount.textContent = "x" + 15;
-        updatePokos();
-        updateRPPrice();
+document.addEventListener('keypress', (event) => {
+    if(event.key === "a") {
+        shake(6150);
+        deletefile.cloneNode(true).play();
+        music.volume = 0.05;
+        setTimeout(() => {
+            pokos = 0;
+            rp = 0;
+            rpprice = 15;
+            rpamount.textContent = "x" + 0;
+            bp = 0;
+            bpprice = 100;
+            bpamount.textContent = "x" + 0;
+            pokoUpdates();
+            updatePokos();
+            updateRPPrice();
+            updateBPPrice();
+            music.volume = 0.5;
+            willshake.classList.remove("shake")
+        }, 6150);
+        
+
     }
 });
 
+//mute unmute
+
+
+toggleMute.addEventListener('click', () => {
+    if(music.muted) {
+        music.muted = false;
+        toggleMute.style.backgroundImage = "url('images/unmute.png')";
+        music.volume = 0.5;
+        music.play();
+    } else {
+        music.muted = true;
+        toggleMute.style.backgroundImage = "url('images/mute.png')";
+    }
+});
 // red pikmin purchasing!!!!
 
 rpbox.addEventListener('mousedown', () => {
@@ -99,3 +174,23 @@ rpbox.addEventListener('mousedown', () => {
         updateRPPrice();
     }
 })
+
+// blue pikmin purchasing!!!!
+
+bpbox.addEventListener('mousedown', () => {
+    if(pokos >= bpprice) {
+        pokos -= bpprice;
+        bp++;
+        bpamount.textContent = "x" + bp;
+        updatePokos();
+        updateBPPrice();
+    }
+})
+
+// run every second
+
+setInterval(() => {
+    pokos += (Math.round(rp * 10) / 10) * rpmulti;
+    pokos += bp * 10 * bpmulti;
+    updatePokos();
+}, 1000)
