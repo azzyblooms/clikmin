@@ -19,15 +19,25 @@ const bptext = document.getElementById('bptext');
 const bpamount = document.getElementById('bpamount');
 const bpcosttext = document.querySelectorAll(".bpcosttext")
 const bpbox = document.getElementById('bpbox');
+
+const ypcost = document.getElementById('ypcost');
+const yptext = document.getElementById('yptext');
+const ypamount = document.getElementById('ypamount');
+const ypcosttext = document.querySelectorAll(".ypcosttext")
+const ypbox = document.getElementById('ypbox');
+
 // VARIABLES
 let pokos = Number(localStorage.getItem("pokos")) || 0;
 // - red pikmin
 let rp = Number(localStorage.getItem("rp")) || 0;
 let rpprice = 15;
 let rpmulti = 1;
-let bp = Number(localStorage.getItem("rp")) || 0;
+let bp = Number(localStorage.getItem("bp")) || 0;
 let bpprice = 100;
 let bpmulti = 1;
+let yp = Number(localStorage.getItem("bp")) || 0;
+let ypprice = 1100;
+let ypmulti = 1;
 // variable stuff that can probs be coded more efficienter
 
 // declaring functions
@@ -41,7 +51,7 @@ function updatePokos() {
     localStorage.setItem("pokos", pokos);
     localStorage.setItem("rp", rp);
     localStorage.setItem("bp", bp);
-    number.textContent = pokos;
+    number.textContent = fixNumber(pokos);
     if(pokos == 1) {
         pageTitle.textContent = "clikmin: " + pokos + " poko"
     } else {
@@ -80,7 +90,7 @@ function pokoUpdates() {
             element.style.color = "red";
         });
     }
-        if(pokos >= bpprice) {
+    if(pokos >= bpprice) {
         bpcosttext.forEach(element => {
             element.style.color = "green";
         });
@@ -89,19 +99,49 @@ function pokoUpdates() {
             element.style.color = "red";
         });
     }
+    if(pokos >= ypprice) {
+        ypcosttext.forEach(element => {
+            element.style.color = "green";
+        });
+    } else {
+        ypcosttext.forEach(element => {
+            element.style.color = "red";
+        });
+    }
+}
+
+function fixNumber(num) {
+    if(num < 1000) return Math.floor(num);
+
+    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx"];
+    let index = -1;
+
+    while(num >= 1000 && index < suffixes.length - 1) {
+        num /= 1000;
+        index++;
+    }
+    let roundednum = Math.round(num * 100) / 100;
+    let numstring = roundednum.toString();
+    return numstring + suffixes[index];
 }
 
 function updateRPPrice() {
     localStorage.setItem("rp", rp);
     rpprice = Math.floor(15 * Math.pow(1.15, rp));
-    rpcost.textContent = rpprice;
+    rpcost.textContent = fixNumber(rpprice);
     rpamount.textContent = "x" + rp;
 }
 function updateBPPrice() {
     localStorage.setItem("bp", bp);
     bpprice = Math.floor(100 * Math.pow(1.15, bp));
-    bpcost.textContent = bpprice;
+    bpcost.textContent = fixNumber(bpprice);
     bpamount.textContent = "x" + bp;
+}
+function updateYPPrice() {
+    localStorage.setItem("yp", yp);
+    ypprice = Math.floor(1100 * Math.pow(1.15, yp));
+    ypcost.textContent = fixNumber(ypprice);
+    ypamount.textContent = "x" + yp;
 }
 
 // handling pokos
@@ -110,6 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePokos();
     updateRPPrice();
     updateBPPrice();
+    updateYPPrice();
     music.play();
 })
 
@@ -137,10 +178,14 @@ document.addEventListener('keypress', (event) => {
             bp = 0;
             bpprice = 100;
             bpamount.textContent = "x" + 0;
+            yp = 0;
+            ypprice = 100;
+            ypamount.textContent = "x" + 0;
             pokoUpdates();
             updatePokos();
             updateRPPrice();
             updateBPPrice();
+            updateYPPrice();
             music.volume = 0.5;
             willshake.classList.remove("shake")
         }, 6150);
@@ -187,10 +232,23 @@ bpbox.addEventListener('mousedown', () => {
     }
 })
 
+// yellow pikmin purchasing!!!!
+
+ypbox.addEventListener('mousedown', () => {
+    if(pokos >= ypprice) {
+        pokos -= ypprice;
+        yp++;
+        ypamount.textContent = "x" + yp;
+        updatePokos();
+        updateYPPrice();
+    }
+})
+
 // run every second
 
 setInterval(() => {
-    pokos += (Math.round(rp * 10) / 10) * rpmulti;
-    pokos += bp * 10 * bpmulti;
+    pokos += rp * 0.1 * rpmulti;
+    pokos += bp * bpmulti;
+    pokos += yp * 8 * ypmulti;
     updatePokos();
 }, 1000)

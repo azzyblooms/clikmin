@@ -103,3 +103,12 @@ body {
     color:red;
     font-family:pikmin;
 }
+#ypamount {
+    color: grey;
+    font-size:25px;
+    text-align:left;
+}
+.ypcosttext {
+    color:red;
+    font-family:pikmin;
+}
