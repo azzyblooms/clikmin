@@ -25,12 +25,15 @@ audio { display: none;}
     border-radius:4px;
 }
 body {
+    user-select: none;
     text-align:center;
     background-color: rgb(154, 243, 158);
     color:white;
 }
 #clickablemin {
     transition: ease 50ms;
+    margin-top:25px;
+    margin-bottom:25px;
     background-image: url('images/clicker.png');
     background-size: cover;
     border:none;
@@ -40,6 +43,9 @@ body {
 }
 #clickablemin:active {
     transform: scale(1.2);
+}
+#clickablemin:hover {
+    cursor:pointer;
 }
 .johndiv {
     height:200px;
@@ -81,7 +87,10 @@ body {
     background-color:white;
     width:300px;
 }
-#rpimg {
+.itemcontainer:hover {
+    cursor:pointer;
+}
+.rpimg {
     width:20px;
     height:auto;
     padding-right:5px;
@@ -146,84 +155,47 @@ body {
     flex-basis: 100%;
 }
 #redupgrades {
-    margin-top:4px;
-    width:32px;
-    display:flex;
-    justify-content: center;
-    height:96%;
     margin-left:5px;
-    border:2px solid black;
     background-color:rgb(95, 31, 31)
 }
-.ru {
-    border:2px solid black;
-
-    width:22px;
-    margin-top: 2px;
-    height:22px;
-
-}
 #blueupgrades {
-    margin-top:4px;
-    width:32px;
-    display:flex;
-    justify-content: center;
-    height:96%;
-    margin-left:4px;
-    border:2px solid black;
     background-color:rgb(31, 41, 95)
 }
-.bu {
-    border:2px solid black;
-    width:22px;
-    margin-top: 2px;
-    height:22px;
-}
 #yellowupgrades {
-    margin-top:4px;
-    width:32px;
-    display:flex;
-    justify-content: center;
-    height:96%;
-    margin-left:4px;
-    border:2px solid black;
     background-color:rgb(95, 89, 31)
 }
-.yu {
-    border:2px solid black;
-    width:22px;
-    margin-top: 2px;
-    height:22px;
-}
 #genericupgrades {
-    margin-top:4px;
-    width:32px;
-    display:flex;
-    justify-content: center;
-    height:96%;
-    margin-left:4px;
-    border:2px solid black;
     background-color:rgb(18, 99, 22)
 }
-.gu {
-    border:2px solid black;
-    width:20px;
-    margin-top: 2px;
-    height:20px;
-}
 #clickupgrades {
+    background-color:rgb(105, 73, 24)
+}
+.upgrademenu {
     margin-top:4px;
     width:32px;
-    display:flex;
+    display:block;
     justify-content: center;
     height:96%;
     margin-left:4px;
     border:2px solid black;
-    background-color:rgb(105, 73, 24)
 }
-.cu {
+.u {
     border:2px solid black;
-    width:20px;
+    width:22px;
+    font-family:pikmin;
     margin-top: 2px;
-    height:20px;
+    text-align:center;
+    line-height: 22px;
+    margin-left:3px;
+    margin-bottom:4px;
+    height:22px;
+}
+.pokoimg {
+    margin-top:20px;
+}
+.cursorimg {
+    margin-top:18px;
+}
+.u:hover {
+    cursor:pointer;
 }
