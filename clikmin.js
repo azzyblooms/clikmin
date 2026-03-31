@@ -1,6 +1,23 @@
 // AUDIO
 const clickSound = new Audio('audio/pluck.mp3');
 const deletefile = new Audio('audio/deletefile.mp3');
+const cashregister1 = new Audio('audio/cashregister1.wav');
+const cashregister2 = new Audio('audio/cashregister2.wav');
+const cashregister3 = new Audio('audio/cashregister3.wav');
+const cashregister4 = new Audio('audio/cashregister4.wav');
+const cashregister5 = new Audio('audio/cashregister5.wav'); 
+const cashregister6 = new Audio('audio/cashregister6.wav');
+const cashregisterSounds = [
+    cashregister1,
+    cashregister2,
+    cashregister3,
+    cashregister4,
+    cashregister5,
+    cashregister6
+];
+const nope = new Audio('audio/deny.wav');
+const yup = new Audio('audio/modify.wav');
+const upgrade = new Audio('audio/upgrade.wav');
 // ELEMENTS
 const clickableMin = document.getElementById('clickablemin');
 const toggleMute = document.getElementById('togglemute');
@@ -47,16 +64,22 @@ function clickerSound() {
     clickingSound.volume = 0.05;
     clickingSound.play();
 }
+function nopeSound() {
+    const nopeSounding = nope.cloneNode();
+    nopeSounding.volume = 0.3;
+    nopeSounding.play();
+}
+function yupSound() {
+    const yupSounding = yup.cloneNode();
+    yupSounding.volume = 0.3;
+    yupSounding.play();
+}
 function updatePokos() {
     localStorage.setItem("pokos", pokos);
     localStorage.setItem("rp", rp);
     localStorage.setItem("bp", bp);
     number.textContent = fixNumber(pokos);
-    if(pokos == 1) {
-        pageTitle.textContent = "clikmin: " + pokos + " poko"
-    } else {
-        pageTitle.textContent = "clikmin: " + pokos + " pokos"
-    }
+    pageTitle.textContent = "clikmin: " + fixNumber(pokos)
     pokoUpdates();
     if(music.muted == false) {
     number.style.transform = "scale(1.2)";
@@ -65,7 +88,17 @@ function updatePokos() {
         number.style.transform = "scale(1)";
     }, 50);
 }
-    
+}
+function buySomething() {
+    yupSound();
+    cashMoney();
+}
+function cashMoney() {
+    let index = Math.floor(Math.random() * 6)
+
+    let cashSound = cashregisterSounds[index].cloneNode();
+    cashSound.volume = 0.2;
+    cashSound.play();
 }
 function shake(duration) {
     clickableMin.classList.add("shaking");
@@ -111,7 +144,14 @@ function pokoUpdates() {
 }
 
 function fixNumber(num) {
-    if(num < 1000) return Math.floor(num);
+    if(num < 1000) { 
+        const floored = Math.floor(num);
+        if(floored == 1) {
+            return floored + " poko";
+        } else {
+            return floored + " pokos";
+        }
+    }
 
     const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx"];
     let index = -1;
@@ -122,7 +162,11 @@ function fixNumber(num) {
     }
     let roundednum = Math.round(num * 100) / 100;
     let numstring = roundednum.toString();
-    return numstring + suffixes[index];
+    if(roundednum != 0) {
+        return numstring + suffixes[index] + " pokos";
+    } else {
+        return numstring + suffixes[index] + " poko";
+    }
 }
 
 function updateRPPrice() {
@@ -205,6 +249,7 @@ toggleMute.addEventListener('click', () => {
         music.play();
     } else {
         music.muted = true;
+        music.pause();
         toggleMute.style.backgroundImage = "url('images/mute.png')";
     }
 });
@@ -213,10 +258,13 @@ toggleMute.addEventListener('click', () => {
 rpbox.addEventListener('mousedown', () => {
     if(pokos >= rpprice) {
         pokos -= rpprice;
+        buySomething();
         rp++;
         rpamount.textContent = "x" + rp;
         updatePokos();
         updateRPPrice();
+    } else {
+        nopeSound();
     }
 })
 
@@ -226,9 +274,12 @@ bpbox.addEventListener('mousedown', () => {
     if(pokos >= bpprice) {
         pokos -= bpprice;
         bp++;
+        buySomething();
         bpamount.textContent = "x" + bp;
         updatePokos();
         updateBPPrice();
+    } else {
+        nopeSound();
     }
 })
 
@@ -239,8 +290,11 @@ ypbox.addEventListener('mousedown', () => {
         pokos -= ypprice;
         yp++;
         ypamount.textContent = "x" + yp;
+        buySomething();
         updatePokos();
         updateYPPrice();
+    } else {
+        nopeSound();
     }
 })
 
