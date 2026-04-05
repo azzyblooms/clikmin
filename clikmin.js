@@ -1,7 +1,7 @@
 // AUDIO
 const music = new Audio('audio/musicbox.wav');
 music.addEventListener("timeupdate", () => {
-    if (music.currentTime >= 95.76) {
+    if (music.currentTime >= 95.9) {
         music.currentTime = 0;
         music.play();
     }
@@ -26,6 +26,8 @@ const cashregisterSounds = [
 const nope = new Audio('audio/deny.wav');
 const yup = new Audio('audio/modify.wav');
 const upgrade = new Audio('audio/upgrade.wav');
+
+const clickquired = [15, 100, 500, 1000];
 // ELEMENTS
 const clickableMin = document.getElementById('clickablemin');
 const toggleMute = document.getElementById('togglemute');
@@ -78,6 +80,7 @@ let bp = Number(localStorage.getItem("bp")) || 0;
 let bpprice = 100;
 let bpmulti = 1;
 let yp = Number(localStorage.getItem("yp")) || 0;
+let totalClicks = Number(localStorage.getItem("totalClicks")) || 0;
 let ypprice = 1100;
 let ypmulti = 1;
 let genmulti = 1;
@@ -89,6 +92,17 @@ let yuprice = 15000;
 let guprice = 10000;
 let cuprice = 2000;
 
+let ruquired = 10;
+let buquired = 10;
+let yuquired = 10;
+let guquired = 10;
+let cuquired = 15;
+
+let rus = 0;
+let bus = 0;
+let yus = 0;
+let gus = 0;
+let cus = 0;
 
 // declaring functions
 
@@ -138,10 +152,12 @@ function shake(duration) {
     clickableMin.classList.add("shaking");
     rpbox.classList.add("shaking");
     bpbox.classList.add("shaking");
+    ypbox.classList.add("shaking");
     number.classList.add("shaking");
     setTimeout(() => {
         rpbox.classList.remove("shaking");
         bpbox.classList.remove("shaking");
+        ypbox.classList.remove("shaking");
         number.classList.remove("shaking");
         clickableMin.classList.remove("shaking");
     }, duration)
@@ -212,7 +228,7 @@ function fixNumber(num) {
         }
     }
 
-    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx"];
+    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn"];
     let index = -1;
 
     while(num >= 1000 && index < suffixes.length - 1) {
@@ -252,11 +268,11 @@ function updateUpgrades() {
     yum.textContent = "x" + ypmulti; 
     gum.textContent = "x" + genmulti; 
     cursum.textContent = "x" + clickmulti; 
-    ruptxt.textContent = ruprice;
-    buptxt.textContent = buprice;
-    yuptxt.textContent = yuprice;
-    guptxt.textContent = guprice;
-    cuptxt.textContent = cuprice;
+    ruptxt.textContent = fixNumber(ruprice);
+    buptxt.textContent = fixNumber(buprice);
+    yuptxt.textContent = fixNumber(yuprice);
+    guptxt.textContent = fixNumber(guprice);
+    cuptxt.textContent = fixNumber(cuprice);
 }
 
 // handling pokos
@@ -274,6 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
 clickableMin.addEventListener('mousedown', () => {
     clickerSound();
     pokos = pokos + (1 * genmulti * clickmulti)
+    totalClicks++;
+    localStorage.setItem("totalClicks", totalClicks);
     updatePokos();
     pokoUpdates();
 });
@@ -296,8 +314,19 @@ document.addEventListener('keypress', (event) => {
             yp = 0;
             ypprice = 100;
             ypamount.textContent = "x" + 0;
+            rus = 0;
+            bus = 0;
+            yus = 0;
+            gus = 0;
+            cus = 0;
+            rpmulti = 1;
+            bpmulti = 1;
+            ypmulti = 1;
+            genmulti = 1;
+            clickmulti = 1;
             pokoUpdates();
             updatePokos();
+            updateUpgrades();
             updateRPPrice();
             updateBPPrice();
             updateYPPrice();
@@ -373,7 +402,116 @@ ypbox.addEventListener('mousedown', () => {
 // run every second
 
 setInterval(() => {
-    pokosgained = ((rp * 0.1) + bp + (yp * 8)) * genmulti;
+    pokosgained = ((rp * 0.1 * rpmulti) + (bp * bpmulti) + (yp * 8 * ypmulti)) * genmulti;
     pokos += pokosgained; 
     updatePokos();
 }, 1000)
+
+//UPGRADING!
+ru.addEventListener('mousedown', () => {
+    if(pokos >= ruprice) {
+        if(rp >= ruquired) {
+            pokos -= ruprice;
+            buySomething();
+            rus++;
+            ruprice = Math.floor(1000 * Math.pow(2, rus * 1.6));
+            rpmulti *= 2;
+            ruquired = 10 + rus * 10
+            updateUpgrades();
+        } else {
+            nopeSound();
+            console.log("not enough pik")
+        }
+    } else {
+        nopeSound();
+        console.log("not enough mon")
+    }
+})
+bu.addEventListener('mousedown', () => {
+    if(pokos >= buprice) {
+        if(bp >= buquired) {
+            pokos -= buprice;
+            buySomething();
+            bus++;
+            buprice = Math.floor(5000 * Math.pow(2, bus * 1.6));
+            bpmulti *= 2;
+            buquired = 10 + bus * 10
+            updateUpgrades();
+        } else {
+            nopeSound();
+            console.log("not enough pik")
+        }
+    } else {
+        nopeSound();
+        console.log("not enough mon")
+    }
+})
+yu.addEventListener('mousedown', () => {
+    if(pokos >= yuprice) {
+        if(yp >= yuquired) {
+            pokos -= yuprice;
+            buySomething();
+            yus++;
+            yuprice = Math.floor(15000 * Math.pow(2, yus * 1.6));
+            ypmulti *= 2;
+            yuquired = 10 + yus * 10
+            updateUpgrades();
+        } else {
+            nopeSound();
+            console.log("not enough pik")
+        }
+    } else {
+        nopeSound();
+        console.log("not enough mon")
+    }
+})
+gu.addEventListener('mousedown', () => {
+    if(pokos >= guprice) {
+        if(pokosgained >= guquired) {
+            pokos -= guprice;
+            buySomething();
+            gus++;
+            guprice = Math.floor(2 * Math.pow(2, gus * 1.6));
+            genmulti *= 2;
+            if ((gus % 3) === 1) { 
+                guquired *= 2.5;
+            } else {
+                guquired *= 2;
+            }
+            updateUpgrades();
+        } else {
+            nopeSound();
+            console.log("not enough profit")
+            console.log(guquired)
+            console.log(pokosgained)
+        }
+    } else {
+        nopeSound();
+        console.log("not enough mon")
+    }
+})
+cu.addEventListener('mousedown', () => {
+    if(pokos >= cuprice) {
+        if(totalClicks >= cuquired) {
+            pokos -= cuprice;
+            buySomething();
+            cus++;
+            cuprice = Math.floor(2000 * Math.pow(2, cus * 1.6));
+            clickmulti *= 2;
+            if(cus > 3) {
+                cuquired = 1000 * (cus - 3) + 1000;
+            } else {
+                cuquired = clickquired[cus]
+            }
+            updateUpgrades();
+        } else {
+            nopeSound();
+            console.log("not enough click")
+            console.log(cuquired)
+            console.log(totalClicks)
+        }
+    } else {
+        nopeSound();
+        console.log("not enough mon")
+    }
+})

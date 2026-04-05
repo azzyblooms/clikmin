@@ -51,6 +51,7 @@ body {
     height:200px;
 }
 #buyboxes {
+    display:inline-block;
     align-items:center;
 }
 #coolnumber {
