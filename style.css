@@ -50,6 +50,9 @@ body {
 .johndiv {
     height:200px;
 }
+#buyboxes {
+    align-items:center;
+}
 #coolnumber {
     border:5px solid white;
     display:inline-block;
@@ -144,7 +147,7 @@ body {
 }
 #upgradesmallbox {
     margin-top:5px;
-    width:206px;
+    width:360px;
     height:400px;
     display:inline-flex;
     background-color: rgb(58, 59, 70);
@@ -172,7 +175,7 @@ body {
 }
 .upgrademenu {
     margin-top:4px;
-    width:32px;
+    width:54px;
     display:block;
     justify-content: center;
     height:96%;
@@ -181,14 +184,31 @@ body {
 }
 .u {
     border:2px solid black;
-    width:22px;
+    width:50px;
     font-family:pikmin;
     margin-top: 2px;
     text-align:center;
     line-height: 22px;
-    margin-left:3px;
-    margin-bottom:4px;
-    height:22px;
+    height:50px;
+    transition: transform ease 150ms;
+}
+.u:hover {
+    transform: scale(1.1)
+}
+.ru:hover {
+    background-color:rgb(146, 49, 49)
+}
+.bu:hover {
+    background-color:rgb(50, 65, 148)
+}
+.yu:hover {
+    background-color:rgb(133, 124, 45)
+}
+.gu:hover {
+    background-color:rgb(27, 134, 32)
+}
+.cu:hover {
+    background-color:rgb(148, 104, 38)
 }
 .pokoimg {
     margin-top:20px;
@@ -198,4 +218,7 @@ body {
 }
 .u:hover {
     cursor:pointer;
+}
+.uic {
+    width:56px;
 }

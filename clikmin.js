@@ -1,4 +1,11 @@
 // AUDIO
+const music = new Audio('audio/musicbox.wav');
+music.addEventListener("timeupdate", () => {
+    if (music.currentTime >= 95.76) {
+        music.currentTime = 0;
+        music.play();
+    }
+});
 const clickSound = new Audio('audio/pluck.mp3');
 const deletefile = new Audio('audio/deletefile.mp3');
 const cashregister1 = new Audio('audio/cashregister1.wav');
@@ -7,6 +14,7 @@ const cashregister3 = new Audio('audio/cashregister3.wav');
 const cashregister4 = new Audio('audio/cashregister4.wav');
 const cashregister5 = new Audio('audio/cashregister5.wav'); 
 const cashregister6 = new Audio('audio/cashregister6.wav');
+let pokosgained = 0;
 const cashregisterSounds = [
     cashregister1,
     cashregister2,
@@ -21,7 +29,6 @@ const upgrade = new Audio('audio/upgrade.wav');
 // ELEMENTS
 const clickableMin = document.getElementById('clickablemin');
 const toggleMute = document.getElementById('togglemute');
-const music = document.getElementById('music');
 const number = document.getElementById('coolnumber');
 const pageTitle = document.getElementById('pagetitle');
 
@@ -43,19 +50,33 @@ const ypamount = document.getElementById('ypamount');
 const ypcosttext = document.querySelectorAll(".ypcosttext")
 const ypbox = document.getElementById('ypbox');
 
+const ru = document.getElementById('ru1');
+const bu = document.getElementById('bu1');
+const yu = document.getElementById('yu1');
+const gu = document.getElementById('gu1');
+const cu = document.getElementById('cu1');
+
 // VARIABLES
 let pokos = Number(localStorage.getItem("pokos")) || 0;
-// - red pikmin
+let musicplaying = false;
 let rp = Number(localStorage.getItem("rp")) || 0;
 let rpprice = 15;
 let rpmulti = 1;
 let bp = Number(localStorage.getItem("bp")) || 0;
 let bpprice = 100;
 let bpmulti = 1;
-let yp = Number(localStorage.getItem("bp")) || 0;
+let yp = Number(localStorage.getItem("yp")) || 0;
 let ypprice = 1100;
 let ypmulti = 1;
-// variable stuff that can probs be coded more efficienter
+let genmulti = 1;
+let clickmulti = 1;
+
+let ruprice = 1000;
+let buprice = 5000;
+let yuprice = 15000;
+let guprice = 10000;
+let cuprice = 2000;
+
 
 // declaring functions
 
@@ -141,6 +162,31 @@ function pokoUpdates() {
             element.style.color = "red";
         });
     }
+    if(pokos >= ruprice) {
+        ru.style.filter = 'saturate(1)'
+    } else {
+        ru.style.filter = 'saturate(0)'
+    }
+    if(pokos >= buprice) {
+        bu.style.filter = 'saturate(1)'
+    } else {
+        bu.style.filter = 'saturate(0)'
+    }
+    if(pokos >= yuprice) {
+        yu.style.filter = 'saturate(1)'
+    } else {
+        yu.style.filter = 'saturate(0)'
+    }
+    if(pokos >= guprice) {
+        gu.style.filter = 'saturate(1)'
+    } else {
+        gu.style.filter = 'saturate(0)'
+    }
+        if(pokos >= cuprice) {
+        cu.style.filter = 'saturate(1)'
+    } else {
+        cu.style.filter = 'saturate(0)'
+    }
 }
 
 function fixNumber(num) {
@@ -202,7 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 clickableMin.addEventListener('mousedown', () => {
     clickerSound();
-    pokos++;
+    pokos = pokos + (1 * genmulti * clickmulti)
     updatePokos();
     pokoUpdates();
 });
@@ -240,16 +286,17 @@ document.addEventListener('keypress', (event) => {
 
 //mute unmute
 
-
 toggleMute.addEventListener('click', () => {
     if(music.muted) {
         music.muted = false;
         toggleMute.style.backgroundImage = "url('images/unmute.png')";
         music.volume = 0.5;
+        musicplaying = true;
         music.play();
     } else {
         music.muted = true;
         music.pause();
+        musicplaying = false;
         toggleMute.style.backgroundImage = "url('images/mute.png')";
     }
 });
@@ -258,7 +305,7 @@ toggleMute.addEventListener('click', () => {
 rpbox.addEventListener('mousedown', () => {
     if(pokos >= rpprice) {
         pokos -= rpprice;
-        buySomething();
+        buySomething(); 
         rp++;
         rpamount.textContent = "x" + rp;
         updatePokos();
@@ -301,8 +348,7 @@ ypbox.addEventListener('mousedown', () => {
 // run every second
 
 setInterval(() => {
-    pokos += rp * 0.1 * rpmulti;
-    pokos += bp * bpmulti;
-    pokos += yp * 8 * ypmulti;
+    pokosgained = ((rp * 0.1) + bp + (yp * 8)) * genmulti;
+    pokos += pokosgained; 
     updatePokos();
 }, 1000)
