@@ -50,11 +50,23 @@ const ypamount = document.getElementById('ypamount');
 const ypcosttext = document.querySelectorAll(".ypcosttext")
 const ypbox = document.getElementById('ypbox');
 
+const rum = document.getElementById('rum');
+const bum = document.getElementById('bum');
+const yum = document.getElementById('yum');
+const gum = document.getElementById('gum');
+const cursum = document.getElementById('cursum');
+
 const ru = document.getElementById('ru1');
 const bu = document.getElementById('bu1');
 const yu = document.getElementById('yu1');
 const gu = document.getElementById('gu1');
 const cu = document.getElementById('cu1');
+
+const ruptxt = document.getElementById('ruprice');
+const buptxt = document.getElementById('buprice');
+const yuptxt = document.getElementById('yuprice');
+const guptxt = document.getElementById('guprice');
+const cuptxt = document.getElementById('cuprice');
 
 // VARIABLES
 let pokos = Number(localStorage.getItem("pokos")) || 0;
@@ -102,6 +114,7 @@ function updatePokos() {
     number.textContent = fixNumber(pokos);
     pageTitle.textContent = "clikmin: " + fixNumber(pokos)
     pokoUpdates();
+    updateUpgrades();
     if(music.muted == false) {
     number.style.transform = "scale(1.2)";
     number.style.transition = "ease 50ms"
@@ -232,6 +245,18 @@ function updateYPPrice() {
     ypprice = Math.floor(1100 * Math.pow(1.15, yp));
     ypcost.textContent = fixNumber(ypprice);
     ypamount.textContent = "x" + yp;
+}
+function updateUpgrades() {
+    rum.textContent = "x" + rpmulti; 
+    bum.textContent = "x" + bpmulti; 
+    yum.textContent = "x" + ypmulti; 
+    gum.textContent = "x" + genmulti; 
+    cursum.textContent = "x" + clickmulti; 
+    ruptxt.textContent = ruprice;
+    buptxt.textContent = buprice;
+    yuptxt.textContent = yuprice;
+    guptxt.textContent = guprice;
+    cuptxt.textContent = cuprice;
 }
 
 // handling pokos

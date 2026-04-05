@@ -222,3 +222,7 @@ body {
 .uic {
     width:56px;
 }
+.upgradetext {
+    font-family:pikmin;
+    font-size:14px;
+}
