@@ -143,13 +143,15 @@ body {
     flex-wrap:wrap;
     justify-content:center;
     padding:8px;
+    width:500px;
+    margin:8px auto;
     border:2px solid black;
     background-color:rgb(103, 104, 116);
 }
 #upgradesmallbox {
     margin-top:5px;
-    width:360px;
-    height:400px;
+    width:446px;
+    height:453px;
     display:inline-flex;
     background-color: rgb(58, 59, 70);
     border:2px solid black;
@@ -176,10 +178,10 @@ body {
 }
 .upgrademenu {
     margin-top:4px;
-    width:54px;
+    width:80px;
     display:block;
     justify-content: center;
-    height:96%;
+    height:440px;
     margin-left:4px;
     border:2px solid black;
 }
@@ -187,7 +189,7 @@ body {
     border:2px solid black;
     width:50px;
     font-family:pikmin;
-    margin-top: 2px;
+    margin: 4px auto;
     text-align:center;
     line-height: 22px;
     height:50px;
@@ -226,4 +228,13 @@ body {
 .upgradetext {
     font-family:pikmin;
     font-size:14px;
+}
+#cui {
+    margin-left:-3px;
+}
+#gui {
+    margin-left:-3px;
+}
+#ri {
+    filter:blur(112421)
 }

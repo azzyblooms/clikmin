@@ -64,6 +64,18 @@ const yu = document.getElementById('yu1');
 const gu = document.getElementById('gu1');
 const cu = document.getElementById('cu1');
 
+const rui = document.getElementById('rui');
+const bui = document.getElementById('bui');
+const yui = document.getElementById('yui');
+const gui = document.getElementById('gui');
+const cui = document.getElementById('cui');
+
+const ri = document.getElementById('ri');
+const bi = document.getElementById('bi');
+const yi = document.getElementById('yi');
+const gi = document.getElementById('gi');
+const ci = document.getElementById('ci');
+
 const ruptxt = document.getElementById('ruprice');
 const buptxt = document.getElementById('buprice');
 const yuptxt = document.getElementById('yuprice');
@@ -75,21 +87,16 @@ let pokos = Number(localStorage.getItem("pokos")) || 0;
 let musicplaying = false;
 let rp = Number(localStorage.getItem("rp")) || 0;
 let rpprice = 15;
-let rpmulti = 1;
 let bp = Number(localStorage.getItem("bp")) || 0;
 let bpprice = 100;
-let bpmulti = 1;
 let yp = Number(localStorage.getItem("yp")) || 0;
 let totalClicks = Number(localStorage.getItem("totalClicks")) || 0;
 let ypprice = 1100;
-let ypmulti = 1;
-let genmulti = 1;
-let clickmulti = 1;
 
 let ruprice = 1000;
 let buprice = 5000;
 let yuprice = 15000;
-let guprice = 10000;
+let guprice = 25000;
 let cuprice = 2000;
 
 let ruquired = 10;
@@ -98,11 +105,17 @@ let yuquired = 10;
 let guquired = 10;
 let cuquired = 15;
 
-let rus = 0;
-let bus = 0;
-let yus = 0;
-let gus = 0;
-let cus = 0;
+let rus = Number(localStorage.getItem("rus")) || 0;
+let bus = Number(localStorage.getItem("bus")) || 0;
+let yus = Number(localStorage.getItem("yus")) || 0;
+let gus = Number(localStorage.getItem("gus")) || 0;
+let cus = Number(localStorage.getItem("cus")) || 0;
+
+let rpmulti = Number(localStorage.getItem("rpmulti")) || 1;
+let bpmulti = Number(localStorage.getItem("bpmulti")) || 1;
+let ypmulti = Number(localStorage.getItem("ypmulti")) || 1;
+let genmulti = Number(localStorage.getItem("genmulti")) || 1;
+let clickmulti = Number(localStorage.getItem("clickmulti")) || 1;
 
 // declaring functions
 
@@ -110,6 +123,19 @@ function clickerSound() {
     const clickingSound = clickSound.cloneNode();
     clickingSound.volume = 0.05;
     clickingSound.play();
+}
+function saveUpgrades() {
+    localStorage.setItem("rus", rus);
+    localStorage.setItem("bus", bus);
+    localStorage.setItem("yus", yus);
+    localStorage.setItem("gus", gus);
+    localStorage.setItem("cus", cus);
+
+    localStorage.setItem("rpmulti", rpmulti);
+    localStorage.setItem("bpmulti", bpmulti);
+    localStorage.setItem("ypmulti", ypmulti);
+    localStorage.setItem("genmulti", genmulti);
+    localStorage.setItem("clickmulti", clickmulti);
 }
 function nopeSound() {
     const nopeSounding = nope.cloneNode();
@@ -216,6 +242,33 @@ function pokoUpdates() {
     } else {
         cu.style.filter = 'saturate(0)'
     }
+
+
+    if(rp >= ruquired) {
+        ri.style.filter = 'saturate(1)'
+    } else {
+        ri.style.filter = 'saturate(0)'
+    }
+    if(bp >= buquired) {
+        bi.style.filter = 'saturate(1)'
+    } else {
+        bi.style.filter = 'saturate(0)'
+    }
+    if(yp >= yuquired) {
+        yi.style.filter = 'saturate(1)'
+    } else {
+        yi.style.filter = 'saturate(0)'
+    }
+    if(pokosgained >= guquired) {
+        pi.style.filter = 'saturate(1)'
+    } else {
+        pi.style.filter = 'saturate(0)'
+    }
+    if(totalClicks >= clickquired) {
+        ci.style.filter = 'saturate(1)'
+    } else {
+        ci.style.filter = 'saturate(0)'
+    }
 }
 
 function fixNumber(num) {
@@ -243,6 +296,22 @@ function fixNumber(num) {
         return numstring + suffixes[index] + " poko";
     }
 }
+function EfixNumber(num) {
+    if(num < 1000) { 
+        return Math.floor(num)
+    }
+
+    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn"];
+    let index = -1;
+
+    while(num >= 1000 && index < suffixes.length - 1) {
+        num /= 1000;
+        index++;
+    }
+    let roundednum = Math.round(num * 100) / 100;
+    let numstring = roundednum.toString();
+    return numstring + suffixes[index];
+}
 
 function updateRPPrice() {
     localStorage.setItem("rp", rp);
@@ -263,16 +332,68 @@ function updateYPPrice() {
     ypamount.textContent = "x" + yp;
 }
 function updateUpgrades() {
-    rum.textContent = "x" + rpmulti; 
-    bum.textContent = "x" + bpmulti; 
-    yum.textContent = "x" + ypmulti; 
-    gum.textContent = "x" + genmulti; 
-    cursum.textContent = "x" + clickmulti; 
+    rum.textContent = "x" + EfixNumber(rpmulti); 
+    bum.textContent = "x" + EfixNumber(bpmulti); 
+    yum.textContent = "x" + EfixNumber(ypmulti); 
+    gum.textContent = "x" + EfixNumber(genmulti); 
+    cursum.textContent = "x" + EfixNumber(clickmulti); 
     ruptxt.textContent = fixNumber(ruprice);
     buptxt.textContent = fixNumber(buprice);
     yuptxt.textContent = fixNumber(yuprice);
     guptxt.textContent = fixNumber(guprice);
     cuptxt.textContent = fixNumber(cuprice);
+    saveUpgrades();
+    pokoUpdates();
+
+    if(rus == 0) {
+        rui.src = "images/upgrades/redleaf.png"
+        rui.style.width = "55.5px"
+    } else if(rus == 1) {
+        rui.src = "images/upgrades/test/redbud.png"
+        rui.style.width = "48.7px"
+    } else {
+        rui.src = "images/upgrades/test/redflower.png"
+    }
+    if(bus == 0) {
+        bui.src = "images/upgrades/blueleaf.png"
+        bui.style.width = "55.5px"
+    } else if(bus == 1) {
+        bui.src = "images/upgrades/test/bluebud.png"
+        bui.style.width = "48.7px"
+    } else {
+        bui.src = "images/upgrades/test/blueflower.png"
+    }
+    if(yus == 0) {
+        yui.src = "images/upgrades/yellowleaf.png"
+        yui.style.width = "55.5px"
+    } else if(yus == 1) {
+        yui.src = "images/upgrades/test/yellowbud.png"
+        yui.style.width = "48.7px"
+    } else {
+        yui.src = "images/upgrades/test/yellowflower.png"
+    }
+    if(gus == 0) {
+        gui.src = "images/upgrades/coins.png"
+        gui.style.width = "55.5px"
+        gui.style.height = "55.5px"
+        gui.style.marginLeft = "-4px"
+        gui.style.marginTop = "0px"
+    } else if(gus == 1) {
+        gui.src = "images/upgrades/bands.png"
+    } else {
+        gui.src = "images/upgrades/bag.png"
+        gui.style.width = "60px"
+        gui.style.height = "60px"
+        gui.style.marginLeft = "-7px"
+        gui.style.marginTop = "-8px"
+    }
+    if(cus == 0) {
+        cui.src = "images/upgrades/redcursor.png"
+    } else if(cus == 1) {
+        cui.src = "images/upgrades/bluecursor.png"
+    } else {
+        cui.src = "images/upgrades/yellowcursor.png"
+    }
 }
 
 // handling pokos
@@ -280,16 +401,27 @@ function updateUpgrades() {
 document.addEventListener('DOMContentLoaded', () => {
     updatePokos();
     updateRPPrice();
+    updateUpgrades();
     updateBPPrice();
     updateYPPrice();
+    uPriceFix();
     music.play();
+    if(rus > 1) {
+        rui.style.width = "48.5px"
+    }
+    if(bus > 1) {
+        bui.style.width = "48.5px"
+    }
+    if(yus > 1) {
+        yui.style.width = "48.5px"
+    }
 })
 
 // clicking main clickable
 
 clickableMin.addEventListener('mousedown', () => {
     clickerSound();
-    pokos = pokos + (1 * genmulti * clickmulti)
+    pokos = pokos + (10000000000 * genmulti * clickmulti)
     totalClicks++;
     localStorage.setItem("totalClicks", totalClicks);
     updatePokos();
@@ -319,6 +451,11 @@ document.addEventListener('keypress', (event) => {
             yus = 0;
             gus = 0;
             cus = 0;
+            ruprice = 1000;
+            buprice = 5000;
+            yuprice = 15000;
+            guprice = 10000;
+            cuprice = 2000;
             rpmulti = 1;
             bpmulti = 1;
             ypmulti = 1;
@@ -471,7 +608,7 @@ gu.addEventListener('mousedown', () => {
             pokos -= guprice;
             buySomething();
             gus++;
-            guprice = Math.floor(2 * Math.pow(2, gus * 1.6));
+            guprice = Math.floor(25000 * Math.pow(2.4, gus * 1.6));
             genmulti *= 2;
             if ((gus % 3) === 1) { 
                 guquired *= 2.5;
@@ -515,3 +652,25 @@ cu.addEventListener('mousedown', () => {
         console.log("not enough mon")
     }
 })
+function uPriceFix() {
+    if(cus >= 1) {
+        cuprice = Math.floor(2000 * Math.pow(2, cus * 1.6));
+    }
+    if(gus >= 1) {
+        guprice = Math.floor(25000 * Math.pow(2.4, gus * 1.6));
+    }
+     if(yus >= 1) {
+        yuprice = Math.floor(15000 * Math.pow(2, yus * 1.6));
+     }
+     if(bus >= 1) {
+        buprice = Math.floor(5000 * Math.pow(2, bus * 1.6));
+     }
+     if(rus >= 1) {
+        ruprice = Math.floor(1000 * Math.pow(2, rus * 1.6));
+     }
+    ruptxt.textContent = fixNumber(ruprice);
+    buptxt.textContent = fixNumber(buprice);
+    yuptxt.textContent = fixNumber(yuprice);
+    guptxt.textContent = fixNumber(guprice);
+    cuptxt.textContent = fixNumber(cuprice);
+}
