@@ -6,7 +6,7 @@ press A to reset your file and press D to enable creative mode (gives you 1Qn po
 features original music composed by me!!!! <br><br>
 created using html, css, and js <br><br>
 probably the biggest thing i learned was how to handle large numbers and how to round numbers, as well as most Math operators in general!!! REMIND ME TO NEVER TRY TO MAKE PERFECTLY LOOPING MUSIC IT SUCKS<br><br>
-have fun running ts in the background of your computer and forgetting about it for hours and hours!!!!! 
+have fun running ts in the background of your computer and forgetting about it for hours and hours!!!!! <br><br>
 link to play: [https://azzyblooms.github.io/clikmin/](https://azzyblooms.github.io/clikmin/)
 <br><br>
 <div align="center">
