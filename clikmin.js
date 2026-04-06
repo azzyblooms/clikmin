@@ -1,12 +1,13 @@
 // AUDIO
 const music = new Audio('audio/musicbox.wav');
 music.addEventListener("timeupdate", () => {
-    if (music.currentTime >= 95.9) {
+    if (music.currentTime >= 95.75) {
         music.currentTime = 0;
         music.play();
     }
 });
 const clickSound = new Audio('audio/pluck.mp3');
+const cpsNum = document.getElementById('lesscoolnumber')
 const deletefile = new Audio('audio/deletefile.mp3');
 const cashregister1 = new Audio('audio/cashregister1.wav');
 const cashregister2 = new Audio('audio/cashregister2.wav');
@@ -15,6 +16,7 @@ const cashregister4 = new Audio('audio/cashregister4.wav');
 const cashregister5 = new Audio('audio/cashregister5.wav'); 
 const cashregister6 = new Audio('audio/cashregister6.wav');
 let pokosgained = 0;
+let clickamount = 1;
 const cashregisterSounds = [
     cashregister1,
     cashregister2,
@@ -27,7 +29,7 @@ const nope = new Audio('audio/deny.wav');
 const yup = new Audio('audio/modify.wav');
 const upgrade = new Audio('audio/upgrade.wav');
 
-const clickquired = [15, 100, 500, 1000];
+const clickquired = [15, 50, 100];
 // ELEMENTS
 const clickableMin = document.getElementById('clickablemin');
 const toggleMute = document.getElementById('togglemute');
@@ -73,7 +75,7 @@ const cui = document.getElementById('cui');
 const ri = document.getElementById('ri');
 const bi = document.getElementById('bi');
 const yi = document.getElementById('yi');
-const gi = document.getElementById('gi');
+const pi = document.getElementById('pi');
 const ci = document.getElementById('ci');
 
 const ruptxt = document.getElementById('ruprice');
@@ -81,7 +83,7 @@ const buptxt = document.getElementById('buprice');
 const yuptxt = document.getElementById('yuprice');
 const guptxt = document.getElementById('guprice');
 const cuptxt = document.getElementById('cuprice');
-
+const upgradeBox = document.getElementById('upgradebigbox')
 // VARIABLES
 let pokos = Number(localStorage.getItem("pokos")) || 0;
 let musicplaying = false;
@@ -148,6 +150,8 @@ function yupSound() {
     yupSounding.play();
 }
 function updatePokos() {
+    fixOnion();
+    pokosgained = ((rp * 0.1 * rpmulti) + (bp * bpmulti) + (yp * 8 * ypmulti)) * genmulti;
     localStorage.setItem("pokos", pokos);
     localStorage.setItem("rp", rp);
     localStorage.setItem("bp", bp);
@@ -162,8 +166,10 @@ function updatePokos() {
         number.style.transform = "scale(1)";
     }, 50);
 }
+    cpsNum.textContent = fixNoRound(pokosgained) + " per second";
 }
 function buySomething() {
+    pokosgained = ((rp * 0.1 * rpmulti) + (bp * bpmulti) + (yp * 8 * ypmulti)) * genmulti;
     yupSound();
     cashMoney();
 }
@@ -177,11 +183,15 @@ function cashMoney() {
 function shake(duration) {
     clickableMin.classList.add("shaking");
     rpbox.classList.add("shaking");
+    cpsNum.classList.add("shaking");
+    upgradeBox.classList.add("shaking");
     bpbox.classList.add("shaking");
     ypbox.classList.add("shaking");
     number.classList.add("shaking");
     setTimeout(() => {
         rpbox.classList.remove("shaking");
+        upgradeBox.classList.remove("shaking");
+        cpsNum.classList.remove("shaking");
         bpbox.classList.remove("shaking");
         ypbox.classList.remove("shaking");
         number.classList.remove("shaking");
@@ -264,10 +274,10 @@ function pokoUpdates() {
     } else {
         pi.style.filter = 'saturate(0)'
     }
-    if(totalClicks >= clickquired) {
-        ci.style.filter = 'saturate(1)'
+    if(totalClicks >= cuquired) {
+        ci.style.filter = 'brightness(1)'
     } else {
-        ci.style.filter = 'saturate(0)'
+        ci.style.filter = 'brightness(0)'
     }
 }
 
@@ -281,7 +291,7 @@ function fixNumber(num) {
         }
     }
 
-    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn"];
+    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn", "UVg", "DVg", "TVg", "qtV", "QnV", "SeV", "SPG", "OVG", "NVG", "TGN", "UTG", "DTG", "tsTG"];
     let index = -1;
 
     while(num >= 1000 && index < suffixes.length - 1) {
@@ -301,7 +311,7 @@ function EfixNumber(num) {
         return Math.floor(num)
     }
 
-    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn"];
+    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn", "UVg", "DVg", "TVg", "qtV", "QnV", "SeV", "SPG", "OVG", "NVG", "TGN", "UTG", "DTG", "tsTG"];
     let index = -1;
 
     while(num >= 1000 && index < suffixes.length - 1) {
@@ -311,6 +321,30 @@ function EfixNumber(num) {
     let roundednum = Math.round(num * 100) / 100;
     let numstring = roundednum.toString();
     return numstring + suffixes[index];
+}
+function fixNoRound(num) {
+    if(num < 1000) { 
+        if(num == 1) {
+            return (Math.round((num + Number.EPSILON) * 10) / 10) + " poko";
+        } else {
+            return (Math.round((num + Number.EPSILON) * 10) / 10) + " pokos";
+        }
+    }
+
+    const suffixes = ["k", "M", "B", "T", "qd", "Qn", "sx", "Sp", "O", "N", "de", "Ud", "DD", "tdD", "qdD", "QnD", "sxD", "SpD", "OcD", "NvD", "Vgn", "UVg", "DVg", "TVg", "qtV", "QnV", "SeV", "SPG", "OVG", "NVG", "TGN", "UTG", "DTG", "tsTG"];
+    let index = -1;
+
+    while(num >= 1000 && index < suffixes.length - 1) {
+        num /= 1000;
+        index++;
+    }
+    let roundednum = Math.round(num * 100) / 100;
+    let numstring = roundednum.toString();
+    if(roundednum != 0) {
+        return numstring + suffixes[index] + " pokos";
+    } else {
+        return numstring + suffixes[index] + " poko";
+    }
 }
 
 function updateRPPrice() {
@@ -406,6 +440,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateYPPrice();
     uPriceFix();
     music.play();
+    clickamount = 1;
+    music.muted = true;
     if(rus > 1) {
         rui.style.width = "48.5px"
     }
@@ -421,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 clickableMin.addEventListener('mousedown', () => {
     clickerSound();
-    pokos = pokos + (10000000000 * genmulti * clickmulti)
+    pokos = pokos + (clickamount * genmulti * clickmulti)
     totalClicks++;
     localStorage.setItem("totalClicks", totalClicks);
     updatePokos();
@@ -444,7 +480,7 @@ document.addEventListener('keypress', (event) => {
             bpprice = 100;
             bpamount.textContent = "x" + 0;
             yp = 0;
-            ypprice = 100;
+            ypprice = 1100;
             ypamount.textContent = "x" + 0;
             rus = 0;
             bus = 0;
@@ -473,6 +509,13 @@ document.addEventListener('keypress', (event) => {
         
 
     }
+    if(event.key === "d") {
+        if(clickamount == 1000000000000000000) {
+            clickamount = 1;
+        } else {
+            clickamount = 1000000000000000000;
+        }
+    } 
 });
 
 //mute unmute
@@ -552,7 +595,7 @@ ru.addEventListener('mousedown', () => {
             buySomething();
             rus++;
             ruprice = Math.floor(1000 * Math.pow(2, rus * 1.6));
-            rpmulti *= 2;
+            rpmulti *= 4;
             ruquired = 10 + rus * 10
             updateUpgrades();
         } else {
@@ -571,7 +614,7 @@ bu.addEventListener('mousedown', () => {
             buySomething();
             bus++;
             buprice = Math.floor(5000 * Math.pow(2, bus * 1.6));
-            bpmulti *= 2;
+            bpmulti *= 3.5;
             buquired = 10 + bus * 10
             updateUpgrades();
         } else {
@@ -590,7 +633,7 @@ yu.addEventListener('mousedown', () => {
             buySomething();
             yus++;
             yuprice = Math.floor(15000 * Math.pow(2, yus * 1.6));
-            ypmulti *= 2;
+            ypmulti *= 3;
             yuquired = 10 + yus * 10
             updateUpgrades();
         } else {
@@ -635,8 +678,8 @@ cu.addEventListener('mousedown', () => {
             cus++;
             cuprice = Math.floor(2000 * Math.pow(2, cus * 1.6));
             clickmulti *= 2;
-            if(cus > 3) {
-                cuquired = 1000 * (cus - 3) + 1000;
+            if(cus > 2) {
+                cuquired = 100 * (cus - 1) + 100;
             } else {
                 cuquired = clickquired[cus]
             }
@@ -673,4 +716,15 @@ function uPriceFix() {
     yuptxt.textContent = fixNumber(yuprice);
     guptxt.textContent = fixNumber(guprice);
     cuptxt.textContent = fixNumber(cuprice);
+}
+function fixOnion() {
+    if(rp > yp && rp > bp) {
+        clickableMin.style.backgroundImage = "url(images/redonion.png)"
+    } else if(bp > rp && bp > yp) {
+        clickableMin.style.backgroundImage = "url(images/blueonion.png)"
+    } else if(yp > rp && yp > bp) {
+        clickableMin.style.backgroundImage = "url(images/yellowonion.png)"
+    } else {
+        clickableMin.style.backgroundImage = "url(images/greyonion.png)"
+    }
 }

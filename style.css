@@ -32,13 +32,11 @@ body {
 }
 #clickablemin {
     transition: ease 50ms;
-    margin-top:25px;
-    margin-bottom:25px;
-    background-image: url('images/clicker.png');
+    background-image: url('images/greyonion.png');
     background-size: cover;
     border:none;
-    height:200px;
-    width:200px;
+    height:250px;
+    width:250px;
     background-color:transparent;
 }
 #clickablemin:active {
@@ -64,12 +62,29 @@ body {
     padding-top:6px;
     padding-bottom:6px;
     font-size:40px;
-    display:inline-block;
+    font-family:pikmin;
+    transition: transform ease 150ms;
+}
+#lesscoolnumber {
+    border:5px solid white;
+    display:block;
+    margin:20px auto;
+    border-radius:8px;
+    background-color:rgb(105, 224, 101);
+    padding:10px;
+    width:300px;
+    padding-top:6px;
+    padding-bottom:6px;
+    font-size:20px;
     font-family:pikmin;
     transition: transform ease 150ms;
 }
 #togglemute {
     width:100px;
+    position:fixed;
+    top:0;
+    right:0;
+    margin:10px;
     height:100px;
     background-image: url('images/mute.png');
     border:none;
@@ -234,7 +249,4 @@ body {
 }
 #gui {
     margin-left:-3px;
-}
-#ri {
-    filter:blur(112421)
 }
