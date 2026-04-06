@@ -31,10 +31,14 @@ const upgrade = new Audio('audio/upgrade.wav');
 
 const clickquired = [15, 50, 100];
 // ELEMENTS
+
 const clickableMin = document.getElementById('clickablemin');
 const toggleMute = document.getElementById('togglemute');
 const number = document.getElementById('coolnumber');
 const pageTitle = document.getElementById('pagetitle');
+const statsTitle = document.getElementById('statstitle');
+const statsBar = document.getElementById('sidebar');
+const statsText = document.getElementById('statsbox');
 
 const rpcost = document.getElementById('rpcost');
 const rptext = document.getElementById('rptext');
@@ -158,6 +162,7 @@ function updatePokos() {
     number.textContent = fixNumber(pokos);
     pageTitle.textContent = "clikmin: " + fixNumber(pokos)
     pokoUpdates();
+    statsUpdate();
     updateUpgrades();
     if(music.muted == false) {
     number.style.transform = "scale(1.2)";
@@ -728,3 +733,47 @@ function fixOnion() {
         clickableMin.style.backgroundImage = "url(images/greyonion.png)"
     }
 }
+// test code test code wakatime please load test code test code wakatime i crode test test test 
+statsTitle.addEventListener('mousedown', () => {
+    if(statsBar.style.width == "50px") {
+        openStats();
+    } else {
+        closeStats();
+    }
+})
+function closeStats() {
+    statsTitle.style.transform = "translateX(0) translateY(0) rotate(270deg)"
+    statsTitle.style.width = "260px"
+    statsTitle.style.marginTop = "22vw"
+    statsTitle.style.marginLeft = "-93px"
+    statsBar.style.width = "50px"
+    statsText.style.display = "none"
+}
+function openStats() {
+    statsTitle.style.transform = "translateX(265px) translateY(-400px) rotate(0deg)"
+    statsBar.style.width = "650px"
+    statsText.style.display = "inline-block"
+    statsText.style.textAlign = "left"
+}
+const rpppsstat = document.getElementById('rpppsstat');
+const bpppsstat = document.getElementById('bpppsstat');
+const ypppsstat = document.getElementById('ypppsstat');
+const rpatstat = document.getElementById('rpatstat');
+const bpatstat = document.getElementById('bpatstat');
+const ypatstat = document.getElementById('ypatstat');
+const tclickstat = document.getElementById('tclickstat');
+const cpokostat = document.getElementById('cpokostat');
+const ppsstat = document.getElementById('ppsstat');
+const atpokostat = document.getElementById('atpokostat');
+const clickatpokostat = document.getElementById('clickatpokostat');
+const upstat = document.getElementById('upstat');
+const tpstat = document.getElementById('tpstat');
+const ppstat = document.getElementById('ppstat');
+function statsUpdate() {
+    rpppsstat.textContent = fixNoRound(rp * 0.1 * rpmulti * genmulti)
+    bpppsstat.textContent = fixNoRound(bp * 0.1 * bpmulti * genmulti)
+    ypppsstat.textContent = fixNoRound(yp * 0.1 * ypmulti * genmulti)
+    tclickstat.textContent = totalClicks;
+    // clickatpokostat.textContent = 
+}
+//    pokosgained = ((rp * 0.1 * rpmulti) + (bp * bpmulti) + (yp * 8 * ypmulti)) * genmulti;

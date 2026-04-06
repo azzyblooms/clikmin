@@ -250,3 +250,39 @@ body {
 #gui {
     margin-left:-3px;
 }
+#sidebar {
+    position: fixed;
+    top: 0;
+    background-color:rgb(105, 224, 101);
+    left: 0;
+    border-right: 4px solid white;
+    height: 100vw;
+    width:50px;
+}
+#statstitle {
+    transform: rotate(270deg);
+    font-family: pikmin;
+    font-size: 30px;
+    border:4px solid white;
+    background-color:rgb(105, 224, 101);
+    padding:10px;
+    width:260px;
+    text-align:center;
+    border-radius:4px;
+    margin-top:22vw;
+    margin-left:-93px;
+    transition: transform ease 150ms;
+
+}
+#statstitle:hover {
+    background-color:rgb(85, 197, 81);
+    transform:rotate(270deg) scale(1.1);
+}
+#statsbox {
+    display:none;
+    font-family:pikmin;
+    font-size:25px;
+    text-align:left;
+    margin-top:-300px;
+    margin-left:-70px;
+}
